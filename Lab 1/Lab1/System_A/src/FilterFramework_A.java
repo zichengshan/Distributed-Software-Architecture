@@ -49,20 +49,6 @@ public class FilterFramework_A extends Thread
 
     private FilterFramework_A InputFilter;
 
-    /***************************************************************************
-     * InnerClass:: EndOfStreamExeception
-     * Purpose: This
-     *
-     *
-     *
-     * Arguments: none
-     *
-     * Returns: none
-     *
-     * Exceptions: none
-     *
-     ****************************************************************************/
-
     class EndOfStreamException extends Exception {
 
         EndOfStreamException () { super(); }

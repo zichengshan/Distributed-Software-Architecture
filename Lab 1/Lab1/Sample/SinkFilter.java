@@ -25,12 +25,12 @@ import java.text.SimpleDateFormat;		// This class is used to format and write ti
 public class SinkFilter extends FilterFramework
 {
 	public void run()
-    {
+	{
 		/************************************************************************************
-		*	TimeStamp is used to compute time using java.util's Calendar class.
-		* 	TimeStampFormat is used to format the time value so that it can be easily printed
-		*	to the terminal.
-		*************************************************************************************/
+		 *	TimeStamp is used to compute time using java.util's Calendar class.
+		 * 	TimeStampFormat is used to format the time value so that it can be easily printed
+		 *	to the terminal.
+		 *************************************************************************************/
 		Calendar TimeStamp = Calendar.getInstance();
 		SimpleDateFormat TimeStampFormat = new SimpleDateFormat("yyyy MM dd::hh:mm:ss:SSS");
 
@@ -50,9 +50,9 @@ public class SinkFilter extends FilterFramework
 			try
 			{
 				/***************************************************************************
-				// We know that the first data coming to this filter is going to be an ID and
-				// that it is IdLength long. So we first get the ID bytes.
-				****************************************************************************/
+				 // We know that the first data coming to this filter is going to be an ID and
+				 // that it is IdLength long. So we first get the ID bytes.
+				 ****************************************************************************/
 				id = 0;
 				for (i=0; i<IdLength; i++ )
 				{
@@ -66,15 +66,15 @@ public class SinkFilter extends FilterFramework
 				}
 
 				/****************************************************************************
-				// Here we read measurements. All measurement data is read as a stream of bytes
-				// and stored as a long value. This permits us to do bitwise manipulation that
-				// is neccesary to convert the byte stream into data words. Note that bitwise
-				// manipulation is not permitted on any kind of floating point types in Java.
-				// If the id = 0 then this is a time value and is therefore a long value - no
-				// problem. However, if the id is something other than 0, then the bits in the
-				// long value is really of type double and we need to convert the value using
-				// Double.longBitsToDouble(long val) to do the conversion which is illustrated below.
-				*****************************************************************************/
+				 // Here we read measurements. All measurement data is read as a stream of bytes
+				 // and stored as a long value. This permits us to do bitwise manipulation that
+				 // is neccesary to convert the byte stream into data words. Note that bitwise
+				 // manipulation is not permitted on any kind of floating point types in Java.
+				 // If the id = 0 then this is a time value and is therefore a long value - no
+				 // problem. However, if the id is something other than 0, then the bits in the
+				 // long value is really of type double and we need to convert the value using
+				 // Double.longBitsToDouble(long val) to do the conversion which is illustrated below.
+				 *****************************************************************************/
 				measurement = 0;
 				for (i=0; i<MeasurementLength; i++ )
 				{
@@ -83,34 +83,34 @@ public class SinkFilter extends FilterFramework
 					if (i != MeasurementLength-1)					// If this is not the last byte, then slide the
 					{												// previously appended byte to the left by one byte
 						measurement = measurement << 8;				// to make room for the next byte we append to the
-																	// measurement
+						// measurement
 					}
 					bytesread++;									// Increment the byte count
 				}
 
 				/****************************************************************************
-				// Here we look for an ID of 0 which indicates this is a time measurement.
-				// Every frame begins with an ID of 0, followed by a time stamp which correlates
-				// to the time that each proceeding measurement was recorded. Time is stored
-				// in milliseconds since Epoch. This allows us to use Java's calendar class to
-				// retrieve time and also use text format classes to format the output into
-				// a form humans can read. So this provides great flexibility in terms of
-				// dealing with time arithmetically or for string display purposes. This is
-				// illustrated below.
-				****************************************************************************/
+				 // Here we look for an ID of 0 which indicates this is a time measurement.
+				 // Every frame begins with an ID of 0, followed by a time stamp which correlates
+				 // to the time that each proceeding measurement was recorded. Time is stored
+				 // in milliseconds since Epoch. This allows us to use Java's calendar class to
+				 // retrieve time and also use text format classes to format the output into
+				 // a form humans can read. So this provides great flexibility in terms of
+				 // dealing with time arithmetically or for string display purposes. This is
+				 // illustrated below.
+				 ****************************************************************************/
 				if ( id == 0 )
 				{
 					TimeStamp.setTimeInMillis(measurement);
 				}
 
 				/****************************************************************************
-				// Here we pick up a measurement (ID = 4 in this case), but you can pick up
-				// any measurement you want to. All measurements in the stream are
-				// captured by this class. Note that all data measurements are double types
-				// This illustrates how to convert the bits read from the stream into a double
-				// type. Its pretty simple using Double.longBitsToDouble(long value). So here
-				// we print the time stamp and the data associated with the ID we are interested in.
-				****************************************************************************/
+				 // Here we pick up a measurement (ID = 4 in this case), but you can pick up
+				 // any measurement you want to. All measurements in the stream are
+				 // captured by this class. Note that all data measurements are double types
+				 // This illustrates how to convert the bits read from the stream into a double
+				 // type. Its pretty simple using Double.longBitsToDouble(long value). So here
+				 // we print the time stamp and the data associated with the ID we are interested in.
+				 ****************************************************************************/
 				if ( id == 4 )
 				{
 					System.out.print( TimeStampFormat.format(TimeStamp.getTime()) + " ID = " + id + " " + Double.longBitsToDouble(measurement) );
@@ -118,10 +118,10 @@ public class SinkFilter extends FilterFramework
 				System.out.print( "\n" );
 			}
 			/*******************************************************************************
-			*	The EndOfStreamExeception below is thrown when you reach end of the input
-			*	stream. At this point, the filter ports are closed and a message is
-			*	written letting the user know what is going on.
-			********************************************************************************/
+			 *	The EndOfStreamExeception below is thrown when you reach end of the input
+			 *	stream. At this point, the filter ports are closed and a message is
+			 *	written letting the user know what is going on.
+			 ********************************************************************************/
 			catch (EndOfStreamException e)
 			{
 				ClosePorts();
@@ -129,5 +129,5 @@ public class SinkFilter extends FilterFramework
 				break;
 			}
 		} // while
-   } // run
+	} // run
 }

@@ -1,73 +1,71 @@
 //public class SourceFilter_A {
 //}
 
-/******************************************************************************************************************
- * File:SourceFilter_A.java
- * Project: Assignment 1
- * Copyright: Copyright (c) 2003 Carnegie Mellon University
- * Versions:
- *	1.0 November 2008 - Initial rewrite of original Lab 1 (ajl).
- *
- * Description:
- *
- * This class is used for creating source filters. The details of threading, connections writing output
- * are contained in the FilterFramework super class. In order to use this template the program should rename the class.
- * The template includes the run() method which is executed when the filter is started. The run() method is the guts
- * of the filter and is where the programmer should put their filter specific code.The run() method is the main
- * read-write loop for reading data from some source and writing to the output port of the filter. This template
- * assumes that the filter is a source filter that reads data from a file, device (sensor),or generates the data
- * interally, and then writes data to its output port. In this case, only the output port is used. In cases where the
- * filter is a standard filter or a sink filter, you should use the FilterTemplate.java or SinkFilterTemplate.java as
- * a starting point for creating standard or sink filters.
- *
- * Parameters: 		None
- *
- * Internal Methods:
- *
- *	public void run() - this method must be overridden by this class.
- *
- ******************************************************************************************************************/
+import java.io.DataInputStream;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 public class SourceFilter_A extends FilterFramework_A
 {
+    /**
+     * The run() method which is executed when the filter is started.
+     * The run() method is the main read-write loop for reading data from some source and writing to the output port of the filter.
+     */
     public void run()
     {
+        String fileName = "FlightData.dat";	// Input data file.
+        int bytesread = 0;					// Number of bytes read from the input file.
+        int byteswritten = 0;				// Number of bytes written to the stream.
+        DataInputStream in = null;			// File stream reference.
+        byte databyte = 0;					// The byte of data read from the file
 
-        byte databyte = 0;
-
-/*************************************************************
- *	This is the main processing loop for the filter. Since this
- *   is a source filter, the programer will have to determine
- * 	when the loop ends.
- **************************************************************/
-
-        while (true)
+        try
         {
+            // Here we open the file and write a message to the terminal.
+            in = new DataInputStream(new FileInputStream(fileName));
+            System.out.println("\n" + this.getName() + "::Source reading file..." );
 
-/*************************************************************
- *	The programer can insert code for the filter operations
- * 	here to include reading the data from some device or file.
- *   Note that regardless how the data is read, data must
- *	be sent one byte at a time out the output pipe. This has
- * 	been done to adhere to the pipe and filter paradigm and
- *	provide a high degree of portabilty between filters.
- *	However, you must convert input data to byte type on your
- *	own. The following line of code will write a byte of data
- *	out the filter's output port. If you break from the loop
- * 	you should call ClosePorts() to close the filter ports in an
- * 	orderly way. This is shown below, but commented out. Where
- * 	you close the ports will depend upon how you terminate the
- *	loop.
- **************************************************************/
-
-            WriteFilterOutputPort(databyte);
-
-        } // while
-
-		/*
-		ClosePorts();
-		*/
-
+            /***********************************************************************************
+             *	Here we read the data from the file and send it out the filter's output port one
+             * 	byte at a time. The loop stops when it encounters an EOFException.
+             ***********************************************************************************/
+            while(true)
+            {
+                databyte = in.readByte();
+                bytesread++;
+                WriteFilterOutputPort(databyte);
+                byteswritten++;
+            }
+        }
+        /***********************************************************************************
+         *	The following exception is raised when we hit the end of input file. Once we
+         * 	reach this point, we close the input file, close the filter ports and exit.
+         ***********************************************************************************/
+        catch ( EOFException eoferr )
+        {
+            System.out.println("\n" + this.getName() + "::End of file reached..." );
+            try
+            {
+                in.close();
+                ClosePorts();
+                System.out.println( "\n" + this.getName() + "::Read file complete, bytes read::" + bytesread + " bytes written: " + byteswritten );
+            }
+            /***********************************************************************************
+             *	The following exception is raised should we have a problem closing the file.
+             ***********************************************************************************/
+            catch (Exception closeerr)
+            {
+                System.out.println("\n" + this.getName() + "::Problem closing input data file::" + closeerr);
+            }
+        }
+        /***********************************************************************************
+         *	The following exception is raised should we have a problem opening the file.
+         ***********************************************************************************/
+        catch ( IOException iox )
+        {
+            System.out.println("\n" + this.getName() + "::Problem reading input data file::" + iox );
+        }
     } // run
 
-} // SourceFilterTemplate
+} // SourceFilter_A

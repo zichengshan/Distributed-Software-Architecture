@@ -1,6 +1,13 @@
 //public class SinkFilter_A {
 //}
 
+import javax.annotation.processing.FilerException;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
 /******************************************************************************************************************
  * File:SinkFilterTemplate.java
  * Project: Assignment 1
@@ -31,53 +38,157 @@
 
 public class SinkFilter_A extends FilterFramework_A
 {
+    public static List<List<String>> streamData = new ArrayList<>();
     public void run()
     {
-        byte databyte = 0;
+        /************************************************************************************
+         *	TimeStamp is used to compute time using java.util's Calendar class.
+         * 	TimeStampFormat is used to format the time value so that it can be easily printed
+         *	to the terminal.
+         *************************************************************************************/
+        Calendar TimeStamp = Calendar.getInstance();
+        // Set the data format to "YYYY:DD:HH:MM:SS" style
+        SimpleDateFormat TimeStampFormat = new SimpleDateFormat("YYYY:DD:HH:MM:SS");
 
-/*************************************************************
- *	This is the main processing loop for the filter. Since this
- *   is a sink filter, we read until there is no more data
- * 	available on the input port.
- **************************************************************/
+        int MeasurementLength = 8;		// This is the length of all measurements (including time) in bytes
+        int IdLength = 4;				// This is the length of IDs in the byte stream
+        byte databyte = 0;				// This is the data byte read from the stream
+        int bytesread = 0;				// This is the number of bytes read from the stream
+        long measurement;				// This is the word used to store all measurements - conversions are illustrated.
+        int id;							// This is the measurement id
+        int i;							// This is a loop counter
+        double velocity = 0.0;		    // Used to store velocity
+        double altitude = 0.0; 			// Used to store altitude
+        double pressure = 0.0;			// Used to store pressure
+        double temperature = 0.0; 		// Used to store temperature
+
+        // Initialize the streamData
+        iniData();
+
+        // First we announce to the world that we are alive...
+        System.out.print( "\n" + this.getName() + "::Sink Reading ");
 
         while (true)
         {
             try
             {
-/*************************************************************
- *	Here we read a byte from the input port. Note that
- * 	regardless how the data is written, data must be read one
- *	byte at a time from the input pipe. This has been done
- * 	to adhere to the pipe and filter paradigm and provide a
- *	high degree of portabilty between filters. However, you
- * 	must convert output data as needed on your own.
- **************************************************************/
+                /***************************************************************************
+                 // We know that the first data coming to this filter is going to be an ID and
+                 // that it is IdLength long. So we first get the ID bytes.
+                 ****************************************************************************/
+                id = 0;
+                for (i=0; i<IdLength; i++ )
+                {
+                    databyte = ReadFilterInputPort();	// This is where we read the byte from the stream...
+                    id = id | (databyte & 0xFF);		// We append the byte on to ID...
+                    if (i != IdLength-1)				// If this is not the last byte, then slide the
+                    {									// previously appended byte to the left by one byte
+                        id = id << 8;					// to make room for the next byte we append to the ID
+                    }
+                    bytesread++;						// Increment the byte count
+                }
 
-                databyte = ReadFilterInputPort();
+                /****************************************************************************
+                 // Here we read measurements. All measurement data is read as a stream of bytes
+                 // and stored as a long value. This permits us to do bitwise manipulation that
+                 // is neccesary to convert the byte stream into data words. Note that bitwise
+                 // manipulation is not permitted on any kind of floating point types in Java.
+                 // If the id = 0 then this is a time value and is therefore a long value - no
+                 // problem. However, if the id is something other than 0, then the bits in the
+                 // long value is really of type double and we need to convert the value using
+                 // Double.longBitsToDouble(long val) to do the conversion which is illustrated below.
+                 *****************************************************************************/
+                measurement = 0;
+                for (i=0; i<MeasurementLength; i++ )
+                {
+                    databyte = ReadFilterInputPort();
+                    measurement = measurement | (databyte & 0xFF);	// We append the byte on to measurement...
+                    if (i != MeasurementLength-1)					// If this is not the last byte, then slide the
+                    {												// previously appended byte to the left by one byte
+                        measurement = measurement << 8;				// to make room for the next byte we append to the
+                        // measurement
+                    }
+                    bytesread++;									// Increment the byte count
+                }
 
-/*************************************************************
- *	The programer can insert code for the filter operations
- * 	here to include writing the data to some device or file.
- **************************************************************/
+                /****************************************************************************
+                 Based on the data stream format, The corresponding meanings of different id values are as follows:
+                 id = 0 : Time
+                 id = 1: Velocity
+                 id = 2: Altitude
+                 id = 3: Pressure
+                 id = 4: Temperature
+                 id = 5: Pitch (Not needed in SystemA)
+                 ****************************************************************************/
+                if ( id == 0 )
+                    TimeStamp.setTimeInMillis(measurement);
+                else if (id == 1)
+                    velocity = Double.longBitsToDouble(measurement);
+                else if ( id == 2)
+                    altitude = Double.longBitsToDouble(measurement);
+                else if( id == 3)
+                    pressure = Double.longBitsToDouble(measurement);
+                else if ( id == 4)
+                    temperature = Double.longBitsToDouble(measurement);
 
-            } // try
+                // Add this line of data
+                addData(TimeStampFormat.format(TimeStamp.getTime()), velocity, altitude, pressure, temperature);
 
-/***************************************************************
- *	When we reach the end of the input stream, an exception is
- * 	thrown which is shown below. At this point, you should
- * 	finish up any processing, close your ports and exit.
- ***************************************************************/
+//                System.out.println(TimeStampFormat.format(TimeStamp.getTime())
+//                        + " VVV." + velocity + " AAA." + altitude + " PPP." + pressure + " TTT." + temperature);
 
+            }
+            /*******************************************************************************
+             *	The EndOfStreamExeception below is thrown when you reach end of the input
+             *	stream. At this point, the filter ports are closed and a message is
+             *	written letting the user know what is going on.
+             ********************************************************************************/
             catch (EndOfStreamException e)
             {
                 ClosePorts();
+                System.out.print( "\n" + this.getName() + "::Sink Exiting; bytes read: " + bytesread );
                 break;
-
-            } // catch
-
+            }
         } // while
-
     } // run
 
+    /**
+     * iniData() method is used to initialize the streamData
+     */
+    private static void iniData(){
+        List<String> list = new ArrayList<>();
+        list.add("Time");
+        list.add("Velocity");
+        list.add("Altitude");
+        list.add("Pressure");
+        list.add("Temperature");
+        streamData.add(list);
+    }
+
+    /**
+     * addData() method is used to add one line of data.
+     * To make the main function clean
+     * @param time
+     * @param velocity
+     * @param altitude
+     * @param pressure
+     * @param temperature
+     */
+    private static void addData(String time, double velocity, double altitude, double pressure, double temperature){
+        List<String> list = new ArrayList<>();
+        list.add(time);
+        list.add(String.valueOf(velocity));
+        list.add(String.valueOf(altitude));
+        list.add(String.valueOf(pressure));
+        list.add(String.valueOf(temperature));
+        streamData.add(list);
+    }
+
+    private static void writeToCsv(List<List<String>> data){
+        File file = new File("data_A.csv");
+
+        for (List<String> list : data){
+
+        }
+    }
 } // FilterTemplate
