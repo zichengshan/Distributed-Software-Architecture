@@ -1,10 +1,7 @@
 //public class SourceFilter_A {
 //}
 
-import java.io.DataInputStream;
-import java.io.EOFException;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 
 public class SourceFilter_A extends FilterFramework_A
 {
@@ -14,7 +11,14 @@ public class SourceFilter_A extends FilterFramework_A
      */
     public void run()
     {
-        String fileName = "FlightData.dat";	// Input data file.
+//        File directory = new File("");
+//        try {
+//            System.out.println(directory.getCanonicalPath());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        String fileName = "./System_A/src/FlightData.dat";	// Input data file.
+        String fileName = "./src/FlightData.dat";	// Input data file.
         int bytesread = 0;					// Number of bytes read from the input file.
         int byteswritten = 0;				// Number of bytes written to the stream.
         DataInputStream in = null;			// File stream reference.

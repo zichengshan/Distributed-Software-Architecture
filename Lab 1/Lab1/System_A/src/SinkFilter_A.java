@@ -1,8 +1,6 @@
 //public class SinkFilter_A {
 //}
-
-import javax.annotation.processing.FilerException;
-import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,7 +36,7 @@ import java.util.List;
 
 public class SinkFilter_A extends FilterFramework_A
 {
-    public static List<List<String>> streamData = new ArrayList<>();
+    public static List<String[]> streamData = new ArrayList<>();
     public void run()
     {
         /************************************************************************************
@@ -134,9 +132,6 @@ public class SinkFilter_A extends FilterFramework_A
                 // Add this line of data
                 addData(TimeStampFormat.format(TimeStamp.getTime()), velocity, altitude, pressure, temperature);
 
-//                System.out.println(TimeStampFormat.format(TimeStamp.getTime())
-//                        + " VVV." + velocity + " AAA." + altitude + " PPP." + pressure + " TTT." + temperature);
-
             }
             /*******************************************************************************
              *	The EndOfStreamExeception below is thrown when you reach end of the input
@@ -150,19 +145,25 @@ public class SinkFilter_A extends FilterFramework_A
                 break;
             }
         } // while
+
+        try {
+            csvWriter.writeCsv(streamData);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     } // run
 
     /**
      * iniData() method is used to initialize the streamData
      */
     private static void iniData(){
-        List<String> list = new ArrayList<>();
-        list.add("Time");
-        list.add("Velocity");
-        list.add("Altitude");
-        list.add("Pressure");
-        list.add("Temperature");
-        streamData.add(list);
+        String[] strings = new String[5];
+        strings[0] = "Time";
+        strings[1] = "Velocity";
+        strings[2] = "Altitude";
+        strings[3] = "Pressure";
+        strings[4] = "Temperature";
+        streamData.add(strings);
     }
 
     /**
@@ -175,20 +176,12 @@ public class SinkFilter_A extends FilterFramework_A
      * @param temperature
      */
     private static void addData(String time, double velocity, double altitude, double pressure, double temperature){
-        List<String> list = new ArrayList<>();
-        list.add(time);
-        list.add(String.valueOf(velocity));
-        list.add(String.valueOf(altitude));
-        list.add(String.valueOf(pressure));
-        list.add(String.valueOf(temperature));
-        streamData.add(list);
-    }
-
-    private static void writeToCsv(List<List<String>> data){
-        File file = new File("data_A.csv");
-
-        for (List<String> list : data){
-
-        }
+        String[] strings = new String[5];
+        strings[0] = time;
+        strings[1] = String.valueOf(velocity);
+        strings[2] = String.valueOf(altitude);
+        strings[3] = String.valueOf(pressure);
+        strings[4] = String.valueOf(temperature);
+        streamData.add(strings);
     }
 } // FilterTemplate
