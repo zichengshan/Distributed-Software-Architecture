@@ -5,35 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="951c9c27-efe0-4bd4-836d-928514126254" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../SystemA/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FilterFramework_A$EndOfStreamException.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FilterFramework_A.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FilterFramework_A.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FlightData.dat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/MiddleFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Plumber_A.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Plumber_A.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SinkFilter_A.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SinkFilter_A.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SourceFilter_A.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SourceFilter_A.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/csvWriter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dataAA.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/FilterFramework_A$EndOfStreamException.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/FilterFramework_A.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/MiddleFilter.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Plumber_A.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/SinkFilter_A.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/SourceFilter_A.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/csvWriter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Lab 1/Lab1/Sample/MiddleFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Lab 1/Lab1/Sample/MiddleFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Lab 1/Lab1/Sample/out/production/Sample/MiddleFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../Lab 1/Lab1/Sample/out/production/Sample/MiddleFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SystemA/src/main/java/SinkFilter_A.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SystemA/src/main/java/SinkFilter_A.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MiddleFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MiddleFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dataAA.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dataAA.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/MiddleFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MiddleFilter.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +71,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1643253422450</updated>
-      <workItem from="1643253423700" duration="7945000" />
+      <workItem from="1643253423700" duration="11785000" />
     </task>
     <servers />
   </component>
