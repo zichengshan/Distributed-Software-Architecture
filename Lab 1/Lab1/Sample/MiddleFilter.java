@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 /******************************************************************************************************************
 * File:MiddleFilter.java
 * Project: Lab 1
@@ -18,6 +21,7 @@
 
 public class MiddleFilter extends FilterFramework
 {
+	public static Queue<Byte> q = new LinkedList<Byte>();
 	public void run()
     {
 		int bytesread = 0;					// Number of bytes read from the input file.
@@ -32,10 +36,20 @@ public class MiddleFilter extends FilterFramework
 			// Here we read a byte and write a byte
 			try
 			{
-				databyte = ReadFilterInputPort();
-				bytesread++;
-				WriteFilterOutputPort(databyte);
-				byteswritten++;
+				for (int i = 0; i < 10; i++){
+					databyte = ReadFilterInputPort();
+					q.offer(databyte);
+					bytesread++;
+				}
+				while(!q.isEmpty()){
+					WriteFilterOutputPort(q.poll());
+					byteswritten++;
+				}
+//				databyte = ReadFilterInputPort();
+//				bytesread++;
+//				WriteFilterOutputPort(databyte);
+//				byteswritten++;
+
 			}
 			catch (EndOfStreamException e)
 			{
