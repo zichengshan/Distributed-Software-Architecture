@@ -1,4 +1,3 @@
-import com.opencsv.CSVWriter;
 /******************************************************************************************************************
  * File:PlumberTemplate.java
  * Project: Assignment 1
@@ -37,7 +36,7 @@ import com.opencsv.CSVWriter;
  * Internal Methods:	None
  *
  ******************************************************************************************************************/
-public class Plumber_A
+public class Plumber_B
 {
     public static void main( String argv[])
     {
@@ -45,9 +44,9 @@ public class Plumber_A
          * Here we instantiate three filters.
          ****************************************************************************/
 
-		SourceFilter_A Filter1 = new SourceFilter_A();	// This is a source filter - see SourceFilterTemplate.java
-		MiddleFilter Filter2 = new MiddleFilter();
-		SinkFilter_A Filter3 = new SinkFilter_A();		// This is a sink filter - see SinkFilterTemplate.java
+		SourceFilter_B Filter1 = new SourceFilter_B();	// This is a source filter - see SourceFilterTemplate.java
+		MiddleFilter_B Filter2 = new MiddleFilter_B();
+		SinkFilter_B Filter3 = new SinkFilter_B();		// This is a sink filter - see SinkFilterTemplate.java
 
         /****************************************************************************
          * Here we connect the filters starting with the sink filter (Filter 1) which

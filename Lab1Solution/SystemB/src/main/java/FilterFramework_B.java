@@ -35,7 +35,7 @@
 
 import java.io.*;
 
-public class FilterFramework_A extends Thread
+public class FilterFramework_B extends Thread
 {
     // Define filter input and output ports
 
@@ -47,7 +47,7 @@ public class FilterFramework_A extends Thread
     // the previous filter in the network and when it dies, we know that it has closed its
     // output pipe and will send no more data.
 
-    private FilterFramework_A InputFilter;
+    private FilterFramework_B InputFilter;
 
     class EndOfStreamException extends Exception {
 
@@ -73,7 +73,7 @@ public class FilterFramework_A extends Thread
      *
      ****************************************************************************/
 
-    void Connect( FilterFramework_A Filter )
+    void Connect( FilterFramework_B Filter )
     {
         try
         {

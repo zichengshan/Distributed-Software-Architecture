@@ -5,10 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="951c9c27-efe0-4bd4-836d-928514126254" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/MiddleFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MiddleFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/FilterFramework_A.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/FilterFramework_B.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MiddleFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MiddleFilter_B.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Plumber_A.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Plumber_B.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SinkFilter_A.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SinkFilter_B.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SourceFilter_A.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SourceFilter_B.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dataAA.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dataAA.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/MiddleFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MiddleFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/FilterFramework_A$EndOfStreamException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/FilterFramework_A.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/MiddleFilter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Plumber_A.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/SinkFilter_A.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/SourceFilter_A.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,8 +59,8 @@
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RunManager">
-    <configuration name="Plumber_A" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Plumber_A" />
+    <configuration name="Plumber_B" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Plumber_B" />
       <module name="SystemB" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/main/java" />
       <method v="2">
@@ -59,7 +69,7 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Plumber_A" />
+        <item itemvalue="Application.Plumber_B" />
       </list>
     </recent_temporary>
   </component>
@@ -71,7 +81,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1643253422450</updated>
-      <workItem from="1643253423700" duration="11785000" />
+      <workItem from="1643253423700" duration="13250000" />
     </task>
     <servers />
   </component>

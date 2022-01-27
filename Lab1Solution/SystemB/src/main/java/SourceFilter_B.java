@@ -3,7 +3,7 @@
 
 import java.io.*;
 
-public class SourceFilter_A extends FilterFramework_A
+public class SourceFilter_B extends FilterFramework_B
 {
     /**
      * The run() method which is executed when the filter is started.

@@ -34,7 +34,7 @@ import java.util.List;
  *
  ******************************************************************************************************************/
 
-public class SinkFilter_A extends FilterFramework_A
+public class SinkFilter_B extends FilterFramework_B
 {
     public static List<String[]> streamData = new ArrayList<>();
     public static int count = 0;

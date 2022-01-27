@@ -1,7 +1,6 @@
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 /******************************************************************************************************************
 * File:MiddleFilter.java
@@ -21,9 +20,8 @@ import java.util.Queue;
 * Internal Methods: None
 ******************************************************************************************************************/
 
-public class MiddleFilter extends FilterFramework_A
+public class MiddleFilter_B extends FilterFramework_B
 {
-//			public static Queue<Byte> q = new LinkedList<Byte>();
 			public static List<Double> alt = new ArrayList<>();
 			public static List<List<Byte>> altitude_list = new ArrayList<>();
 	public void run()
@@ -37,10 +35,6 @@ public class MiddleFilter extends FilterFramework_A
 		long measurement;				// This is the word used to store all measurements - conversions are illustrated.
 		int id;							// This is the measurement id
 		int i;							// This is a loop counter
-		double velocity = 0.0;		    // Used to store velocity
-		double altitude = 0.0; 			// Used to store altitude
-		double pressure = 0.0;			// Used to store pressure
-		double temperature = 0.0; 		// Used to store temperature
 
 		// Next we write a message to the terminal to let the world know we are alive...
 		System.out.print( "\n" + this.getName() + "::Middle Reading ");
@@ -125,12 +119,22 @@ public class MiddleFilter extends FilterFramework_A
 							double averageAltitude = (alt.get(1) + alt.get(0))/2;
 							alt.set(2, averageAltitude);
 							List<Byte> newList = new ArrayList<>();
+							long measurementCurrent0 = 0;
+							long measurementCurrent1 = 0;
 							for (int j = 0; j < 8; j++){
-								Byte b1 = altitude_list.get(0).get(j);
-								Byte b2 = altitude_list.get(1).get(j);
-								newList.add((byte)(b1 + (b2-b1)/2));
+								measurementCurrent0 = measurementCurrent0 | (altitude_list.get(0).get(j) & 0xFF);
+								measurementCurrent1 = measurementCurrent1 | (altitude_list.get(1).get(j) & 0xFF);
+								if (j != MeasurementLength - 1) {
+									measurementCurrent0 = measurementCurrent0 << 8;
+									measurementCurrent1 = measurementCurrent1 << 8;
+								}
 							}
+							long newmeasurementCurrent = measurementCurrent0 + (measurementCurrent1-measurementCurrent0)/2;
+							byte[] bytes= ByteBuffer.allocate(Long.SIZE / Byte.SIZE).putLong(newmeasurementCurrent).array();
+							for(int x = 0; x < bytes.length; x++)
+								newList.add(bytes[x]);
 							altitude_list.set(2, newList);
+
 						}
 						//delete the first element to make sure the maximum size is 2
 						alt.remove(0);
