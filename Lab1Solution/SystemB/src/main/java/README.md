@@ -4,7 +4,7 @@
 2. Click the green triangle button and choose "Modify Run Configuration", and set the working dictionary to 
    the current java folder
 3. Click the green triangle button and choose "Run 'Plumber_B.main()'"
-4. OutputB.csv will be generated in the java folder 
+4. OutputB.csv and WildPoint.csv will be generated in the java folder 
 
 #### Description:
 Two filters are used in SystemA as follows:

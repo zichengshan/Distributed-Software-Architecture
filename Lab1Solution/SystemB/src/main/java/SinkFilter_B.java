@@ -150,19 +150,19 @@ public class SinkFilter_B extends FilterFramework_B
             }
         } // while
 
-        DecimalFormat df = new DecimalFormat();
         try {
+            // use csvReader to read WildPoint.csv
             DataInputStream in = new DataInputStream(new FileInputStream(new File("WildPoint.csv")));
             CSVReader csvReader = new CSVReader(new InputStreamReader(in, "UTF-8"));
             csvReader.readNext();
+            // because the altitude in WildPoint.csv is the original data, but the streamData saves the updated altitude
+            // we compare pressure here, assume pressure is the primary key of WildPoint.csv
             String temp = String.valueOf(Double.parseDouble(csvReader.readNext()[3]));
             for(int j = 1; j < streamData.size();j++){
-//                System.out.println("streamData: " + streamData.get(j)[2]);
-//                System.out.println("temp:" + temp);
                 String[] x;
                 if(streamData.get(j)[3].equals(temp)){
-                    System.out.println("okkk");
                     String[] newData =  streamData.get(j);
+                    // add an asterisk
                     newData[2] =  streamData.get(j)[2] + "*";
                     streamData.set(j, newData);
                     if((x = csvReader.readNext()) != null)
@@ -177,13 +177,7 @@ public class SinkFilter_B extends FilterFramework_B
             e.printStackTrace();
         }
 
-
-
-
-
-
-
-
+        // Call the writeCsv() method to write data into csv file
         try {
             csvWriter.writeCsv(streamData);
         } catch (IOException e) {

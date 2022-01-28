@@ -1,5 +1,5 @@
 /******************************************************************************************************************
- * File:PlumberTemplate.java
+ * File:Plumber.java
  * Project: Assignment 1
  * Copyright: Copyright (c) 2003 Carnegie Mellon University
  * Versions:
@@ -64,7 +64,6 @@ public class Plumber_B
 		Filter1.start();
 		Filter2.start();
 		Filter3.start();
-
 
     } // main
 

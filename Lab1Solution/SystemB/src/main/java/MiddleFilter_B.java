@@ -27,12 +27,10 @@ public class MiddleFilter_B extends FilterFramework_B
 {
 			public static List<Double> alt = new ArrayList<>();                 // alt is used to save the current altitude and its two previous altitudes
 			public static List<List<Byte>> altitude_list = new ArrayList<>();	// altitude_list is used to save the 8 bytes of altitude information and its two previous altitudes'
-//			public static List<String[]> wildJump = new ArrayList<>();			// wildJump is used to save the original value of wild jump altitude
-			public static List<String[]> Data = new ArrayList<>();
-			boolean hi = false;
+			public static List<String[]> Data = new ArrayList<>();				// Data is used to save the info of a frame which has a wild jump
+			boolean needToSave = false;											// Check whether this frame of data need to save in Data
 	public void run()
     {
-
 		int MeasurementLength = 8;		// This is the length of all measurements (including time) in bytes
 		int IdLength = 4;				// This is the length of IDs in the byte stream
 		byte databyte;				    // This is the data byte read from the stream
@@ -52,6 +50,7 @@ public class MiddleFilter_B extends FilterFramework_B
 		// Set the data format to "YYYY:DD:HH:MM:SS" style
 		SimpleDateFormat TimeStampFormat = new SimpleDateFormat("yyyy:dd:hh:mm:ss");
 
+		// Add the title in Data list
 		iniData();
 		while (true)
 		{
@@ -131,41 +130,37 @@ public class MiddleFilter_B extends FilterFramework_B
 					}
 				else if ( id == 4){
 					temperature = Double.longBitsToDouble(measurement);
-					if(hi == true)
+					// id == 4, we reached the end of one frame
+					if(needToSave == true)
 						addData(TimeStampFormat.format(TimeStamp.getTime()), velocity, altitude, pressure, temperature);
-					hi = false;
+					needToSave = false;
 					}
 
 				// if id == 2, we need to check whether this altitude is a wild jump
 				// if it is a wild jump, save the altitude into wildJump list and write in WildPoint.csv and replace it with the average of the previous two altitudes
 				else if(id == 2){
-					long measurementCurrent = 0;
-					// traverse the list to get the measurement
-					for(int j = 0; j < list.size(); j++){
-						measurementCurrent = measurementCurrent | (list.get(j) & 0xFF);
-						if (j != MeasurementLength - 1)
-							measurementCurrent = measurementCurrent << 8;
-					}
-					double altitudeCurrent = Double.longBitsToDouble(measurementCurrent);
-					alt.add(altitudeCurrent);
+					// get the current altitude
+					altitude = Double.longBitsToDouble(measurement);
+					alt.add(altitude);
 					altitude_list.add(list);
 
 					if(alt.size() == 2){
+						// check whether this is a wild jump
 						if(Math.abs((alt.get(1) - alt.get(0))) > 100.0){
-							altitude = alt.get(1);
-							hi = true;
-//							wildJump.add(new String[]{String.valueOf(alt.get(1))});
+							needToSave = true;
+							// if the wild jump occurs in the second frame, replace the current altitude with the previous one
 							alt.set(1,alt.get(0));
 							altitude_list.set(1, altitude_list.get(0));
 						}
 					}
 					else if (alt.size() == 3){
 						if(Math.abs((alt.get(2) - alt.get(1))) > 100.0){
-							altitude = alt.get(2);
-							hi = true;
-//							wildJump.add(new String[]{String.valueOf(alt.get(2))});
+							needToSave = true;
+							// if there is a wild jump, replace altitude with the average of the previous two altitudes
 							double averageAltitude = (alt.get(1) + alt.get(0))/2;
 							alt.set(2, averageAltitude);
+
+							// get its two previous altitudes' longbits(measurement)
 							List<Byte> newList = new ArrayList<>();
 							long measurementCurrent0 = 0;
 							long measurementCurrent1 = 0;
@@ -177,6 +172,7 @@ public class MiddleFilter_B extends FilterFramework_B
 									measurementCurrent1 = measurementCurrent1 << 8;
 								}
 							}
+							// get the current altitude's longbits and convert it to bytes
 							long newmeasurementCurrent = measurementCurrent0 + (measurementCurrent1-measurementCurrent0)/2;
 							byte[] bytes= ByteBuffer.allocate(Long.SIZE / Byte.SIZE).putLong(newmeasurementCurrent).array();
 							for(int x = 0; x < bytes.length; x++)
@@ -188,6 +184,8 @@ public class MiddleFilter_B extends FilterFramework_B
 						alt.remove(0);
 						altitude_list.remove(0);
 					}
+
+					// output the updated data stream
 					int size = altitude_list.size();
 					List<Byte> output = altitude_list.get(size-1);
 					for(int j = 0; j < output.size(); j++){

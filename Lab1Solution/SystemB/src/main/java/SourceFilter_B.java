@@ -11,40 +11,11 @@ public class SourceFilter_B extends FilterFramework_B
      */
     public void run()
     {
-//        File directory = new File("");
-//        try {
-//            System.out.println(directory.getCanonicalPath());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        String fileName = "./System_A/src/FlightData.dat";	// Input data file.
-
-//        try {
-//            DataInputStream in = new DataInputStream(new FileInputStream(new File("WildPoints.csv")));
-//            CSVReader csvReader = new CSVReader(new InputStreamReader(in, "UTF-8"));
-//            csvReader.readNext();
-//            for(int j = 1; j < data.size();j++){
-//                if(!data.get(j)[2].equals(df.format(Double.parseDouble(csvReader.readNext()[2])))){
-//                    String[] newData =  data.get(j);
-//                    newData[2] =  data.get(j)[2] + "*";
-//                    data.set(j, newData);
-//                }
-//            }
-//        } catch (FileNotFoundException | UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        } catch (CsvValidationException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-
-
         String fileName = "FlightData.dat";	// Input data file.
         int bytesread = 0;					// Number of bytes read from the input file.
         int byteswritten = 0;				// Number of bytes written to the stream.
         DataInputStream in = null;			// File stream reference.
-        byte databyte = 0;					// The byte of data read from the file
+        byte databyte;					    // The byte of data read from the file
 
         try
         {
