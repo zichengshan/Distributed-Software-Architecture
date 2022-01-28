@@ -1,6 +1,10 @@
 //public class SinkFilter_A {
 //}
-import java.io.IOException;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
+
+import java.io.*;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,7 +51,7 @@ public class SinkFilter_B extends FilterFramework_B
          *************************************************************************************/
         Calendar TimeStamp = Calendar.getInstance();
         // Set the data format to "YYYY:DD:HH:MM:SS" style
-        SimpleDateFormat TimeStampFormat = new SimpleDateFormat("YYYY:DD:HH:MM:SS");
+        SimpleDateFormat TimeStampFormat = new SimpleDateFormat("yyyy:dd:hh:mm:ss");
 
         int MeasurementLength = 8;		// This is the length of all measurements (including time) in bytes
         int IdLength = 4;				// This is the length of IDs in the byte stream
@@ -119,26 +123,19 @@ public class SinkFilter_B extends FilterFramework_B
                  id = 4: Temperature
                  id = 5: Pitch (Not needed in SystemA)
                  ****************************************************************************/
-                if ( id == 0 ){
+                if ( id == 0 )
                     TimeStamp.setTimeInMillis(measurement);
-                    count++;}
-                else if (id == 1){
+                else if (id == 1)
                     velocity = Double.longBitsToDouble(measurement);
-                    count++;}
-                else if ( id == 2){
+                else if ( id == 2)
                     altitude = Double.longBitsToDouble(measurement);
-                    count++;}
                 else if( id == 3){
                     pressure = Double.longBitsToDouble(measurement);
-                    count++;}
+                    }
                 else if ( id == 4){
                     temperature = Double.longBitsToDouble(measurement);
-                    count++;}
-
-                // Add this line of data
-                if(count % 5 == 0)
                     addData(TimeStampFormat.format(TimeStamp.getTime()), velocity, altitude, pressure, temperature);
-
+                    }
             }
             /*******************************************************************************
              *	The EndOfStreamExeception below is thrown when you reach end of the input
@@ -152,6 +149,40 @@ public class SinkFilter_B extends FilterFramework_B
                 break;
             }
         } // while
+
+        DecimalFormat df = new DecimalFormat();
+        try {
+            DataInputStream in = new DataInputStream(new FileInputStream(new File("WildPoint.csv")));
+            CSVReader csvReader = new CSVReader(new InputStreamReader(in, "UTF-8"));
+            csvReader.readNext();
+            String temp = String.valueOf(Double.parseDouble(csvReader.readNext()[3]));
+            for(int j = 1; j < streamData.size();j++){
+//                System.out.println("streamData: " + streamData.get(j)[2]);
+//                System.out.println("temp:" + temp);
+                String[] x;
+                if(streamData.get(j)[3].equals(temp)){
+                    System.out.println("okkk");
+                    String[] newData =  streamData.get(j);
+                    newData[2] =  streamData.get(j)[2] + "*";
+                    streamData.set(j, newData);
+                    if((x = csvReader.readNext()) != null)
+                        temp = String.valueOf(Double.parseDouble(x[3]));
+                }
+            }
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (CsvValidationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
+
+
 
         try {
             csvWriter.writeCsv(streamData);

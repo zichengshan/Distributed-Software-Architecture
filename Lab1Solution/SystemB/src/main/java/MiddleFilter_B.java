@@ -1,5 +1,8 @@
+import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /******************************************************************************************************************
@@ -22,23 +25,34 @@ import java.util.List;
 
 public class MiddleFilter_B extends FilterFramework_B
 {
-			public static List<Double> alt = new ArrayList<>();
-			public static List<List<Byte>> altitude_list = new ArrayList<>();
+			public static List<Double> alt = new ArrayList<>();                 // alt is used to save the current altitude and its two previous altitudes
+			public static List<List<Byte>> altitude_list = new ArrayList<>();	// altitude_list is used to save the 8 bytes of altitude information and its two previous altitudes'
+//			public static List<String[]> wildJump = new ArrayList<>();			// wildJump is used to save the original value of wild jump altitude
+			public static List<String[]> Data = new ArrayList<>();
+			boolean hi = false;
 	public void run()
     {
 
 		int MeasurementLength = 8;		// This is the length of all measurements (including time) in bytes
 		int IdLength = 4;				// This is the length of IDs in the byte stream
-		byte databyte = 0;				// This is the data byte read from the stream
+		byte databyte;				    // This is the data byte read from the stream
 		int bytesread = 0;				// This is the number of bytes read from the stream
-		int byteswritten = 0;
+		int byteswritten = 0;           // This is the number of bytes written to the file
 		long measurement;				// This is the word used to store all measurements - conversions are illustrated.
 		int id;							// This is the measurement id
 		int i;							// This is a loop counter
+		double velocity = 0.0;		    // Used to store velocity
+		double altitude = 0.0; 			// Used to store altitude
+		double pressure = 0.0;			// Used to store pressure
+		double temperature = 0.0; 		// Used to store temperature
 
 		// Next we write a message to the terminal to let the world know we are alive...
 		System.out.print( "\n" + this.getName() + "::Middle Reading ");
+		Calendar TimeStamp = Calendar.getInstance();
+		// Set the data format to "YYYY:DD:HH:MM:SS" style
+		SimpleDateFormat TimeStampFormat = new SimpleDateFormat("yyyy:dd:hh:mm:ss");
 
+		iniData();
 		while (true)
 		{
 			// Here we read a byte and write a byte
@@ -87,16 +101,44 @@ public class MiddleFilter_B extends FilterFramework_B
 					}
 					bytesread++;									// Increment the byte count
 
-					// if id != 4, we have not met the altitude info, just writeFilterOutput
+					// if id != 4, we have not met the altitude info, let databyte flow out of the filter without changing
 					if(id != 2){
 						WriteFilterOutputPort(databyte);
 						byteswritten++;
 					}else{
-						// else, we need to save the bytes into the q for further check
+						// else, we need to save the bytes into the list for further check
 						list.add(databyte);
 					}
 				}
-				if(id == 2){
+
+				/****************************************************************************
+				 Based on the data stream format, The corresponding meanings of different id values are as follows:
+				 id = 0 : Time
+				 id = 1: Velocity
+				 id = 2: Altitude
+				 id = 3: Pressure
+				 id = 4: Temperature
+				 id = 5: Pitch (Not needed in SystemA)
+				 ****************************************************************************/
+				if ( id == 0 ){
+					TimeStamp.setTimeInMillis(measurement);
+					}
+				else if (id == 1){
+					velocity = Double.longBitsToDouble(measurement);
+					}
+				else if( id == 3){
+					pressure = Double.longBitsToDouble(measurement);
+					}
+				else if ( id == 4){
+					temperature = Double.longBitsToDouble(measurement);
+					if(hi == true)
+						addData(TimeStampFormat.format(TimeStamp.getTime()), velocity, altitude, pressure, temperature);
+					hi = false;
+					}
+
+				// if id == 2, we need to check whether this altitude is a wild jump
+				// if it is a wild jump, save the altitude into wildJump list and write in WildPoint.csv and replace it with the average of the previous two altitudes
+				else if(id == 2){
 					long measurementCurrent = 0;
 					// traverse the list to get the measurement
 					for(int j = 0; j < list.size(); j++){
@@ -110,12 +152,18 @@ public class MiddleFilter_B extends FilterFramework_B
 
 					if(alt.size() == 2){
 						if(Math.abs((alt.get(1) - alt.get(0))) > 100.0){
+							altitude = alt.get(1);
+							hi = true;
+//							wildJump.add(new String[]{String.valueOf(alt.get(1))});
 							alt.set(1,alt.get(0));
 							altitude_list.set(1, altitude_list.get(0));
 						}
 					}
 					else if (alt.size() == 3){
 						if(Math.abs((alt.get(2) - alt.get(1))) > 100.0){
+							altitude = alt.get(2);
+							hi = true;
+//							wildJump.add(new String[]{String.valueOf(alt.get(2))});
 							double averageAltitude = (alt.get(1) + alt.get(0))/2;
 							alt.set(2, averageAltitude);
 							List<Byte> newList = new ArrayList<>();
@@ -154,6 +202,43 @@ public class MiddleFilter_B extends FilterFramework_B
 				System.out.print( "\n" + this.getName() + "::Middle Exiting; bytes read: " + bytesread + " bytes written: " + byteswritten );
 				break;
 			}
+		}// while
+		try {
+			csvWriter.writeWildJumpCsv(Data);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-   }
+	}
+
+	/**
+	 * iniData() method is used to initialize the streamData
+	 */
+	private static void iniData(){
+		String[] strings = new String[5];
+		strings[0] = "Time";
+		strings[1] = "Velocity";
+		strings[2] = "Altitude";
+		strings[3] = "Pressure";
+		strings[4] = "Temperature";
+		Data.add(strings);
+	}
+
+	/**
+	 * addData() method is used to add one line of data.
+	 * To make the main function clean
+	 * @param time
+	 * @param velocity
+	 * @param altitude
+	 * @param pressure
+	 * @param temperature
+	 */
+	private static void addData(String time, double velocity, double altitude, double pressure, double temperature){
+		String[] strings = new String[5];
+		strings[0] = time;
+		strings[1] = String.valueOf(velocity);
+		strings[2] = String.valueOf(altitude);
+		strings[3] = String.valueOf(pressure);
+		strings[4] = String.valueOf(temperature);
+		Data.add(strings);
+	}
 }
