@@ -63,7 +63,7 @@ public class SinkFilter_A extends FilterFramework_A
         double pressure = 0.0;			// Used to store pressure
         double temperature = 0.0; 		// Used to store temperature
 
-        // Initialize the streamData
+        // Initialize the streamData, add a title
         iniData();
 
         // First we announce to the world that we are alive...

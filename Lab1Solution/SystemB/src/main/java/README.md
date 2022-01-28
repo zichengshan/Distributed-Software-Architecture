@@ -7,7 +7,7 @@
 4. OutputB.csv and WildPoint.csv will be generated in the java folder 
 
 #### Description:
-Two filters are used in SystemA as follows:
+Three filters are used in SystemA as follows:
 1. SourceFilter_B
     - Reads data from a file, and then writes data to its output port (here is SinkFilter_B)
 2. MiddleFilter_B
