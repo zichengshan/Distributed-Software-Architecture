@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="951c9c27-efe0-4bd4-836d-928514126254" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../SystemA/src/main/java/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SystemA/src/main/java/FilterFramework_A$EndOfStreamException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SystemA/src/main/java/FilterFramework_A.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SystemA/src/main/java/Plumber_A.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SystemA/src/main/java/SinkFilter_A.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SystemA/src/main/java/SourceFilter_A.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SystemA/src/main/java/csvWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SystemA/src/main/java/csvWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SystemA/src/main/java/dataAA.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/README.md" afterDir="false" />
-    </list>
+    <list default="true" id="951c9c27-efe0-4bd4-836d-928514126254" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -99,7 +89,7 @@
       <updated>1643253422450</updated>
       <workItem from="1643253423700" duration="14168000" />
       <workItem from="1643315209740" duration="8770000" />
-      <workItem from="1643333764675" duration="8133000" />
+      <workItem from="1643333764675" duration="8414000" />
     </task>
     <servers />
   </component>
