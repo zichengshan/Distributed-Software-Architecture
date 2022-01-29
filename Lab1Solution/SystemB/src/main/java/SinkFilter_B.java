@@ -51,7 +51,7 @@ public class SinkFilter_B extends FilterFramework_B
          *************************************************************************************/
         Calendar TimeStamp = Calendar.getInstance();
         // Set the data format to "YYYY:DD:HH:MM:SS" style
-        SimpleDateFormat TimeStampFormat = new SimpleDateFormat("yyyy:dd:hh:mm:ss");
+        SimpleDateFormat TimeStampFormat = new SimpleDateFormat("yyyy:DD:HH:mm:ss");
 
         int MeasurementLength = 8;		// This is the length of all measurements (including time) in bytes
         int IdLength = 4;				// This is the length of IDs in the byte stream
