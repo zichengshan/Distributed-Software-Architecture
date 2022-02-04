@@ -1,27 +1,38 @@
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.logging.FileHandler;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
+/**
+ * It is used to save all the output information into a log file
+ * Add <code> LogHandler logHandler = new LogHandler(); </code> at line 88 in SystemMain.java
+ */
 public class LogHandler implements Observer {
-    private Logger logger;
-    public LogHandler(){
+private static final String PATH = "logger.txt";
+    private static List<String> cache = new ArrayList<>();
+
+    public LogHandler() {
         EventBus.subscribeTo(EventBus.EV_SHOW, this);
-        try {
-            logger = Logger.getLogger(LogHandler.class.getName());
-            logger.setUseParentHandlers(false);
-            FileHandler file_handler = new FileHandler("LoggerOutputA.log");
-            logger.addHandler(file_handler);
-            SimpleFormatter simpleformatter = new SimpleFormatter();
-            file_handler.setFormatter(simpleformatter);
-        } catch (IOException e){
-            System.out.println("log initiating is failed");
-        }
     }
+
     @Override
-    public void update(Observable o, Object arg) {
+    public void update(Observable event, Object param) {
+        writeFile((String) param);
+    }
+
+    public static void writeFile(String str) {
+        FileWriter writer;
+        try {
+            writer = new FileWriter("log.txt", true);
+            writer.write(str + "\n");
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 }
