@@ -71,6 +71,12 @@ public class EventBus {
     public static final int EV_REGISTER_STUDENT = 6;
 
     /**
+     * Command event #7 definition: check whether a course conflict student's schedule.
+     */
+
+    public static final int EV_REGISTER_STUDENT_CONFLICT_CHECK = 7;
+
+    /**
      * The number of defined events.
      */
     public static final int MAX_NUM_EVENTS  = 100;

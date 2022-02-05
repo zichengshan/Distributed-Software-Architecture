@@ -76,11 +76,22 @@ class SystemMain {
 					db,
 					EventBus.EV_LIST_COURSES_COMPLETED,
 					EventBus.EV_SHOW);
+			/**
+			 * Make changes here, make the RegisterStudentHandler get the output of CourseConflictHandler to be input
+			 */
 			RegisterStudentHandler objCommandEventHandler6 =
 				new RegisterStudentHandler(
 					db,
-					EventBus.EV_REGISTER_STUDENT,
+					EventBus.EV_REGISTER_STUDENT_CONFLICT_CHECK,
 					EventBus.EV_SHOW);
+		/**
+		 * Add another component, handler for course conflict check
+		 */
+			CourseConflictHandler objCommandEventHandler7 =
+					new CourseConflictHandler(
+							db,
+							EventBus.EV_REGISTER_STUDENT,
+							EventBus.EV_REGISTER_STUDENT_CONFLICT_CHECK);
 
 			ClientInput objClientInput = new ClientInput();
 			ClientOutput objClientOutput = new ClientOutput();
