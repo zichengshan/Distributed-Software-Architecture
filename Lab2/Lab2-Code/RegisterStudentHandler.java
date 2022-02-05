@@ -56,6 +56,14 @@ public class RegisterStudentHandler extends CommandEventHandler {
             }
         }
 
+    /**
+     *  The following code is for Required Modification B: overbooked problem
+     */
+        ArrayList student_register = objCourse.getRegisteredStudents();
+        if (student_register.size() >= 3){
+            EventBus.announce(EventBus.EV_SHOW,"This Class is overbooked!");
+        }
+
         // Request validated. Proceed to register.
         this.objDataBase.makeARegistration(sSID, sCID, sSection);
         return "Successful!";
