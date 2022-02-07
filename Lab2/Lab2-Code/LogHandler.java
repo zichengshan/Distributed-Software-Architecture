@@ -10,7 +10,6 @@ import java.util.Observer;
  * Add <code> LogHandler logHandler = new LogHandler(); </code> at line 88 in SystemMain.java
  */
 public class LogHandler implements Observer {
-private static final String PATH = "logger.txt";
     private static List<String> cache = new ArrayList<>();
 
     public LogHandler() {

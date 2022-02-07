@@ -8,7 +8,6 @@
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-
 /**
  * "Register a student for a course" command event handler.
  */
@@ -35,34 +34,33 @@ public class RegisterStudentHandler extends CommandEventHandler {
         // Parse the parameters.
         StringTokenizer objTokenizer = new StringTokenizer(param);
         String identifyCode = objTokenizer.nextToken();
-        String sSID     = objTokenizer.nextToken();
-        String sCID     = objTokenizer.nextToken();
+        String sSID = objTokenizer.nextToken();
+        String sCID = objTokenizer.nextToken();
         String sSection = objTokenizer.nextToken();
 
         // Get the student and course records.
         Student objStudent = this.objDataBase.getStudentRecord(sSID);
         Course objCourse = this.objDataBase.getCourseRecord(sCID, sSection);
-        if (identifyCode.equals("0")) {
-            return "Invalid student ID";
-        }
-        if (identifyCode.equals("1")) {
-            return "Invalid course ID or course section";
-        }
 
-        if (identifyCode.equals("2")) {
+        if (identifyCode.equals("0"))
+            return "Invalid student ID";
+
+        if (identifyCode.equals("1"))
+            return "Invalid course ID or course section";
+
+        if (identifyCode.equals("2"))
             return "Registration Conflicts";
-        }
 
     /**
      *  The following code is for Required Modification B: overbooked problem
      */
         ArrayList student_register = objCourse.getRegisteredStudents();
         if (student_register.size() >= 3){
-            return "Warning: This Class is overbooked!";
+            return "Warning: This course is overbooked!";
         }
 
         // Request validated. Proceed to register.
         this.objDataBase.makeARegistration(sSID, sCID, sSection);
-        return "Successful!";
+        return "Add successfully!";
     }
 }

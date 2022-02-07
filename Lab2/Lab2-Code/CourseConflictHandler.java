@@ -25,6 +25,12 @@ public class CourseConflictHandler extends CommandEventHandler {
         // Get the student and course records.
         Student objStudent = this.objDataBase.getStudentRecord(sSID);
         Course objCourse = this.objDataBase.getCourseRecord(sCID, sSection);
+        /**
+         * 0: Invalid student ID
+         * 1: Invalid course ID or course section
+         * 2: Registration Conflicts
+         * 3: No problem
+         */
         if (objStudent == null) {
             return "0" + " " + sSID + " " + sCID + " " + sSection;
         }

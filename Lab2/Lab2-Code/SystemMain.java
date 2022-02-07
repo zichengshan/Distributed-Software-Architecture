@@ -77,16 +77,16 @@ class SystemMain {
 					EventBus.EV_LIST_COURSES_COMPLETED,
 					EventBus.EV_SHOW);
 			/**
-			 * Make changes here, make the RegisterStudentHandler get the output of CourseConflictHandler to be input
+			 * Qc: Make changes here, make the RegisterStudentHandler get the output of CourseConflictHandler to be input
 			 */
 			RegisterStudentHandler objCommandEventHandler6 =
 				new RegisterStudentHandler(
 					db,
 					EventBus.EV_REGISTER_STUDENT_CONFLICT_CHECK,
 					EventBus.EV_SHOW);
-		/**
-		 * Add another component, handler for course conflict check
-		 */
+			/**
+			 * Qc: Add another component, handler for course conflict check
+			 */
 			CourseConflictHandler objCommandEventHandler7 =
 					new CourseConflictHandler(
 							db,

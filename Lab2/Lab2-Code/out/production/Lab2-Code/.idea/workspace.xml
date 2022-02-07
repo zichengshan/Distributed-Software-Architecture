@@ -5,9 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d1df1e09-4007-45ed-a3eb-f4a013e1e20d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/CourseConflictHandler.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EventBus.class" beforeDir="false" afterPath="$PROJECT_DIR$/EventBus.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LogHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/LogHandler.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LogHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/LogHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RegisterStudentHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/RegisterStudentHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/SystemMain.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/log.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +29,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="24dLQLwmRXyXnU8glzqCMvMuLYt" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -69,7 +83,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1643955499364</updated>
-      <workItem from="1643955500584" duration="1756000" />
+      <workItem from="1643955500584" duration="20260000" />
+      <workItem from="1644261247080" duration="1579000" />
     </task>
     <servers />
   </component>
@@ -86,6 +101,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
